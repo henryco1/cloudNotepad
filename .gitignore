@@ -1,2 +1,2 @@
 **/ignore
-**/cloudNotepad/geckodriver.log
+cloudNotepad/*.log
