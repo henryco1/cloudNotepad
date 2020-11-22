@@ -8,7 +8,7 @@ class Note(models.Model):
     text = models.TextField()
 
     # Note: need to set the timezone to the user's default timezone
-    date_created = models.DateTimeField(default=timezone.now())
+    date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)
 
     @property
