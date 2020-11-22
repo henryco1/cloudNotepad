@@ -1,5 +1,7 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
+import time
 
 class VisitorTest(unittest.TestCase):
     def setUp(self):
@@ -40,10 +42,11 @@ class VisitorTest(unittest.TestCase):
         # 4. The template list populates with the new item
         # 5. Clicking an element in the template list opens a page with the element details
         # 6. User template state is saved throughout noncontiguous sessions
-
+        
         # 1
+        self.browser.get('http://localhost:8000')
         input_box = self.browser.find_element_by_id('id_new_item')
-        input_box = send_keys('Clean the desk')
+        input_box.send_keys('Clean the desk')
 
         # 3
         input_box.send_keys(Keys.ENTER)
@@ -53,9 +56,9 @@ class VisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Clean the desk' for row in rows)
+            any(row.text == '1: Clean the desk' for row in rows),
+            msg="New note did not appear in table"
         )
-
 
         self.fail('Test case incomplete')
     
