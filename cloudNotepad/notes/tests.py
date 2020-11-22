@@ -27,3 +27,7 @@ class HomePageTest(TestCase):
         # expected_html = render_to_string('home.html')
         # self.assertEqual(html, expected_html)
 
+    def testSavePOSTRequest(self):
+        response = self.client.post('/', data={'item_text': 'A new note'})
+        self.assertIn('A new note', response.content.decode())
+        self.assertTemplateUsed(response, 'home.html')

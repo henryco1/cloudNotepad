@@ -55,10 +55,8 @@ class VisitorTest(unittest.TestCase):
         #4
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Clean the desk' for row in rows),
-            msg="New note did not appear in table"
-        )
+        self.assertIn('1: Clean the desk', [row.text for row in rows])
+        self.assertIn('2: Wipe the keyboard', [row.text for row in rows])
 
         self.fail('Test case incomplete')
     
