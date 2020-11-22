@@ -14,6 +14,7 @@ class VisitorTest(unittest.TestCase):
         # 2. User sees the template list
         # 3. User sees the items in the template
         # 4. User sees the textbox for adding template items to the list
+        # 5. User sees their current timezone
         
         # 1
         self.browser.get('http://localhost:8000')
