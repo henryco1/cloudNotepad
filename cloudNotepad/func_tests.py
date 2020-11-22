@@ -10,6 +10,11 @@ class VisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def checkRowInTable(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def testUserViewPage(self):
         # User opens and views the homepage
         # 1. User sees the browser title
@@ -55,8 +60,8 @@ class VisitorTest(unittest.TestCase):
         #4
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Clean the desk', [row.text for row in rows])
-        self.assertIn('2: Wipe the keyboard', [row.text for row in rows])
+        self.checkRowInTable('1: Clean the desk')
+        self.checkRowInTable('2: Wipe the keyboard')
 
         self.fail('Test case incomplete')
     
