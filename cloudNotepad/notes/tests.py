@@ -25,7 +25,7 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def testSavePOSTRequest(self):
-        response = self.client.post('/', data={'item_text': 'A new note'})
+        response = self.client.post('/', data={'note_text': 'A new note'})
         self.assertIn('A new note', response.content.decode())
         self.assertTemplateUsed(response, 'home.html')
 
@@ -53,3 +53,13 @@ class HomePageTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'apples, bananas, citrus')
         self.assertEqual(second_saved_item.text, 'take suppliments after midday meal')
+
+    def testSavePOSTRequest(self):
+        response = self.client.post('/', data={'note_text': 'A new note'})
+
+        self.assertEqual(Note.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new note')
+
+        self.assertIn('A new note item', response.content.decode())
+        self.assertTemplateUsed(response, 'home.html')

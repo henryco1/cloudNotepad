@@ -5,12 +5,12 @@
     <body>
         <h1>Your Notes</h1>
         <form method="POST">
-            <input name="item_text" id="id_new_item" placeholder="Enter a note" />
+            <input name="note_text" id="id_new_note" placeholder="Enter a note" />
             {% csrf_token %}
         </form>
         
         <table id="id_list_table">
-            <tr><td>1: {{ new_item_text }}</td></tr>
+            <tr><td>1: {{ new_note_text }}</td></tr>
         </table>
     </body>
 </html>

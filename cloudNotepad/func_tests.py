@@ -30,7 +30,7 @@ class VisitorTest(unittest.TestCase):
         self.assertIn('Notes', header_text)
 
         # 2
-        input_box = self.browser.find_element_by_id('id_new_item')
+        input_box = self.browser.find_element_by_id('id_new_note')
         self.assertEqual(
             input_box.get_attribute('placeholder'),
             'Enter a note'
@@ -50,7 +50,7 @@ class VisitorTest(unittest.TestCase):
         
         # 1
         self.browser.get('http://localhost:8000')
-        input_box = self.browser.find_element_by_id('id_new_item')
+        input_box = self.browser.find_element_by_id('id_new_note')
         input_box.send_keys('Clean the desk')
 
         # 3
