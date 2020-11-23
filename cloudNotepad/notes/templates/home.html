@@ -10,7 +10,9 @@
         </form>
         
         <table id="id_list_table">
-            <tr><td>1: {{ new_note_text }}</td></tr>
+            {% for note in notes %}
+            <tr><td> {{ forloop.counter }}: {{ note.text }}</td></tr>
+            {% endfor %}
         </table>
     </body>
 </html>

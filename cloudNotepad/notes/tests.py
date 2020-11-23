@@ -55,11 +55,36 @@ class HomePageTest(TestCase):
         self.assertEqual(second_saved_item.text, 'take suppliments after midday meal')
 
     def testSavePOSTRequest(self):
-        response = self.client.post('/', data={'note_text': 'A new note'})
+        self.client.post('/', data={'note_text': 'A new note'})
 
         self.assertEqual(Note.objects.count(), 1)
-        new_item = Item.objects.first()
+        new_item = Note.objects.first()
         self.assertEqual(new_item.text, 'A new note')
 
-        self.assertIn('A new note item', response.content.decode())
-        self.assertTemplateUsed(response, 'home.html')
+
+    def testRedirectAfterPOST(self):
+        # Always redirect after a POST
+        response = self.client.post('/', data={'note_text': 'A new note'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+        # self.assertIn('A new note', response.content.decode())
+        # self.assertTemplateUsed(response, 'home.html')
+
+    def testSaveNoPOSTRequest(self):
+        # saves a POST request only if requested to/if necessary
+        self.client.get('/')
+        self.assertEqual(Note.objects.count(), 0)
+
+    def testDisplayAllNotes(self):
+        Note.objects.create(
+            text='note1_test'
+        )
+        Note.objects.create(
+            text='note2_test'
+        )
+
+        response = self.client.get('/')
+
+        self.assertIn('note1_test', response.content.decode())
+        self.assertIn('note2_test', response.content.encode())

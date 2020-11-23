@@ -48,14 +48,20 @@ class VisitorTest(unittest.TestCase):
         # 5. Clicking an element in the template list opens a page with the element details
         # 6. User template state is saved throughout noncontiguous sessions
         
-        # 1
+        # 0
         self.browser.get('http://localhost:8000')
+
+        # 2 & 3
+        # why find element twice?
         input_box = self.browser.find_element_by_id('id_new_note')
         input_box.send_keys('Clean the desk')
-
-        # 3
         input_box.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(10)
+
+        input_box = self.browser.find_element_by_id('id_new_note')
+        input_box.send_keys('Wipe the keyboard')
+        input_box.send_keys(Keys.ENTER)
+        time.sleep(10)
 
         #4
         table = self.browser.find_element_by_id('id_list_table')
