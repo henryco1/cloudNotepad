@@ -1,9 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 import unittest
 import time
 
-class VisitorTest(unittest.TestCase):
+class VisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
 
@@ -24,7 +25,7 @@ class VisitorTest(unittest.TestCase):
         # 5. User sees their current timezone
         
         # 1
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('Notes', self.browser.title) 
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Notes', header_text)
@@ -49,19 +50,19 @@ class VisitorTest(unittest.TestCase):
         # 6. User template state is saved throughout noncontiguous sessions
         
         # 0
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 2 & 3
         # why find element twice?
         input_box = self.browser.find_element_by_id('id_new_note')
         input_box.send_keys('Clean the desk')
         input_box.send_keys(Keys.ENTER)
-        time.sleep(10)
+        time.sleep(1)
 
         input_box = self.browser.find_element_by_id('id_new_note')
         input_box.send_keys('Wipe the keyboard')
         input_box.send_keys(Keys.ENTER)
-        time.sleep(10)
+        time.sleep(1)
 
         #4
         table = self.browser.find_element_by_id('id_list_table')
@@ -77,5 +78,5 @@ class VisitorTest(unittest.TestCase):
     def testUserUpdateNote(self):
         self.fail('Test case incomplete')
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
