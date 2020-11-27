@@ -87,4 +87,4 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertIn('note1_test', response.content.decode())
-        self.assertIn('note2_test', response.content.encode())
+        self.assertIn('note2_test', response.content.decode())
