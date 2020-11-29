@@ -30,10 +30,19 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def testCreateReadNote(self):
+        # Create and validate dummy notebook
+        dummy_notebook = Notebook()
+        dummy_notebook.title = "Elise's Notebook"
+        dummy_notebook.save()
+
+        saved_notebooks = Notebook.objects.all()
+        self.assertEqual(saved_notebooks.count(), 1)   
+
         first_note = Note()
         first_note.title = 'Grocery List'
         first_note.tags = 'groceries'
         first_note.text = 'apples, bananas, citrus'
+        first_note.container = dummy_notebook
         first_note.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
         first_note.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
         first_note.save()
@@ -42,6 +51,7 @@ class HomePageTest(TestCase):
         second_note.title = 'Medicine'
         second_note.tags = 'doctor'
         second_note.text = 'take suppliments after midday meal'
+        second_note.container = dummy_notebook
         second_note.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
         second_note.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
         second_note.save()
@@ -53,6 +63,40 @@ class HomePageTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'apples, bananas, citrus')
         self.assertEqual(second_saved_item.text, 'take suppliments after midday meal')
+
+    """
+    Test for creating a notebook, which is a container of notes
+    1. Test the creation of a notebook containing notes
+    """
+    def testCreateNotebook(self):
+        first_notebook = Notebook()
+        first_notebook.title = "Elise's Notebook"
+        first_notebook.color = "aqua"
+        first_notebook.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_notebook.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_notebook.save()
+
+        saved_notebooks = Notebook.objects.all()
+        self.assertEqual(saved_notebooks.count(), 1)
+
+        new_notebook = saved_notebooks[0]
+        self.assertEqual(first_notebook.title, "Elise's Notebook")
+        self.assertEqual(first_notebook.color, "aqua")
+
+        first_note = Note()
+        first_note.title = 'Grocery List'
+        first_note.tags = 'groceries'
+        first_note.text = 'apples, bananas, citrus'
+        first_note.container = first_notebook
+        first_note.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_note.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_note.save()
+
+        saved_items = Note.objects.all()
+        self.assertEqual(saved_items.count(), 1)
+
+        new_saved_item = saved_items[0]
+        self.assertEqual(new_saved_item.container.title, "Elise's Notebook")
 
    # def testCreateNoteList(self):
    #      note_list = NoteList()
@@ -116,11 +160,24 @@ class HomePageTest(TestCase):
         self.assertEqual(Note.objects.count(), 0)
 
     def testDisplayAllNotes(self):
+        # Create and validate dummy notebook
+        dummy_notebook = Notebook()
+        dummy_notebook.title = "Elise's Notebook"
+        dummy_notebook.save()
+
+        saved_notebooks = Notebook.objects.all()
+        self.assertEqual(saved_notebooks.count(), 1)    
+
+        # Create and validate notes for display
         Note.objects.create(
-            text='note1_test'
+            title='note1',
+            text='note1_test',
+            container=dummy_notebook
         )
         Note.objects.create(
-            text='note2_test'
+            title='note2',
+            text='note2_test',
+            container=dummy_notebook
         )
 
         response = self.client.get('/')

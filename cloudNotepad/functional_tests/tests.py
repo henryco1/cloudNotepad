@@ -76,6 +76,21 @@ class VisitorTest(LiveServerTestCase):
 
     """
     Create functionality of the textbox
+    1. 
+    """
+    def testUserCreateNoteList(self):
+        # self.browser.get(self.live_server_url)
+        pass 
+
+    """
+    Create functionality of the textbox
+    1. 
+    """
+    def testUserCreateList(self):
+        pass
+
+    """
+    Create functionality of the textbox
     1. User enters template name
     2. User enters template item textbox
     3. User presses the button that adds the item to the list
@@ -102,8 +117,8 @@ class VisitorTest(LiveServerTestCase):
         time.sleep(1)
 
         #4
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
+        # table = self.browser.find_element_by_id('id_list_table')
+        # rows = table.find_elements_by_tag_name('tr')
         self.__checkRowInTable('1: Clean the desk')
         self.__checkRowInTable('2: Wipe the keyboard')
 

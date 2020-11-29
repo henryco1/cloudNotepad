@@ -1,11 +1,13 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from notes.models import Note
+from notes.models import Note, Notebook
 
 # Create your views here.
 def HomePage(request):
     if request.method == 'POST':
-        Note.objects.create(text=request.POST['note_text'])
+        
+        # dummy_notebook = Notebook.objects.first()
+        Note.objects.create(text=request.POST['note_text'], container=Notebook.objects.create())
         return redirect('/')
 
     notes = Note.objects.all()
