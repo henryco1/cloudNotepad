@@ -30,11 +30,6 @@ class HomePageTest(TestCase):
         self.assertTrue(html.strip().endswith('</html>'))
         self.assertTemplateUsed(response, 'home.html')
 
-    def testSavePOSTRequest(self):
-        response = self.client.post('/', data={'note_text': 'A new note'})
-        self.assertIn('A new note', response.content.decode())
-        self.assertTemplateUsed(response, 'home.html')
-
     def testForm(self):
         response = self.client.get('/')
         html = response.content.decode('utf8')
@@ -156,16 +151,35 @@ class HomePageTest(TestCase):
    #      self.assertEqual(saved_items.count(), 1)
 
     def testSavePOSTRequest(self):
-        self.client.post('/', data={'note_text': 'A new note'})
+        dummy_notebook = Notebook()
+        dummy_notebook.save()
+        response = self.client.post('/', 
+          data={
+            'title': 'A new note',
+            'tags': '',
+            'text': 'Hello World',
+            'container': 'My Notebook'
+        })
 
         self.assertEqual(Note.objects.count(), 1)
         new_item = Note.objects.first()
-        self.assertEqual(new_item.text, 'A new note')
+        self.assertEqual(new_item.title, 'A new note')
+        self.assertEqual(new_item.tags, '')
+        self.assertEqual(new_item.text, 'Hello World')
 
 
     def testRedirectAfterPOST(self):
         # Always redirect after a POST
-        response = self.client.post('/', data={'note_text': 'A new note'})
+        dummy_notebook = Notebook()
+        dummy_notebook.save()
+        response = self.client.post('/', 
+          data={
+            'title': 'A new note',
+            'tags': '',
+            'text': 'Hello World',
+            'container': 'My Notebook'
+        })
+
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
 
