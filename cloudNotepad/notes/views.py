@@ -15,7 +15,7 @@ def HomePage(request):
             text=request.POST['text'], 
             container=Notebook.objects.get(title=request.POST['container'])
         )
-        
+
         return redirect('/')
     elif request.method == 'GET':
         name_form = NoteForm
@@ -28,14 +28,3 @@ def HomePage(request):
     notes = Note.objects.all()
     notebooks = Notebook.objects.all()
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
-
-    # if request.method == 'POST':
-    #     new_note_text = request.POST['note_text']
-    #     Note.objects.create(text=new_note_text)
-    # else:
-    #     # always redirect after a POST
-    #     new_note_text = ''
-
-    # return render(request, 'home.html', {
-    #     'new_note_text': request.POST.get('note_text', '')
-    # })

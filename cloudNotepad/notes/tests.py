@@ -183,9 +183,6 @@ class HomePageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
 
-        # self.assertIn('A new note', response.content.decode())
-        # self.assertTemplateUsed(response, 'home.html')
-
     def testSaveNoPOSTRequest(self):
         # saves a POST request only if requested to/if necessary
         self.client.get('/')
