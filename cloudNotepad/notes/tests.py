@@ -35,6 +35,11 @@ class HomePageTest(TestCase):
         self.assertIn('A new note', response.content.decode())
         self.assertTemplateUsed(response, 'home.html')
 
+    def testForm(self):
+        response = self.client.get('/')
+        html = response.content.decode('utf8')
+        self.assertIn('name="my_note"', html)
+
     """
     Test database elements
     1. note

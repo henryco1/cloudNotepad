@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from notes.models import Note, Notebook
 
-from notes.forms import NameForm
+from notes.forms import NoteForm
 
 # Create your views here.
 def HomePage(request):
@@ -12,10 +12,10 @@ def HomePage(request):
         Note.objects.create(text=request.POST['note_text'], container=Notebook.objects.create())
 
         # note form
-        name_form = NameForm(request.POST)
+        name_form = NoteForm(request.POST)
         return redirect('/')
     elif request.method == 'GET':
-        name_form = NameForm
+        name_form = NoteForm
 
     notes = Note.objects.all()
     return render(request, 'home.html', {'notes': notes, 'form': name_form})

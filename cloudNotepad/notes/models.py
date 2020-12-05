@@ -1,8 +1,10 @@
 from django.db import models
+from django.forms import ModelForm
 from django.utils import timezone
 
-# Create your models here.
-
+"""
+Model class declarations
+"""
 class Notebook(models.Model):
     title = models.CharField(
         max_length=50, 
@@ -33,3 +35,24 @@ class Note(models.Model):
     @property
     def all_text(self):
         return '%s %s %s' % (self.title, self.tags, self.text)
+
+"""
+Model form class declarations
+"""
+class NoteForm(ModelForm):
+    class Meta:
+        model = Note
+        fields = [
+            'title',
+            'tags',
+            'text',
+            'container'
+        ]
+
+class NotebookForm(ModelForm):
+    class Meta:
+        model = Notebook
+        fields = [
+            'title',
+            'color'
+        ]
