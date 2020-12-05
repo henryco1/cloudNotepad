@@ -30,6 +30,16 @@ class HomePageTest(TestCase):
         self.assertTrue(html.strip().endswith('</html>'))
         self.assertTemplateUsed(response, 'home.html')
 
+    def testValidateNotebookPage(self):
+        response = self.client.get(f'/notebook/')
+        html = response.content.decode('utf8')
+
+        self.assertTemplateUsed(response, 'notebook.html')
+        self.assertTrue(html.startswith('<html>'))
+        self.assertIn('<title>Notebook</title>', html)
+        self.assertTrue(html.strip().endswith('</html>'))
+        self.assertTemplateUsed(response, 'notebook.html')
+
     def testForm(self):
         response = self.client.get('/')
         html = response.content.decode('utf8')
@@ -111,44 +121,40 @@ class HomePageTest(TestCase):
         new_saved_item = saved_items[0]
         self.assertEqual(new_saved_item.container.title, "Elise's Notebook")
 
-   # def testCreateNoteList(self):
-   #      note_list = NoteList()
-   #      NoteList.save()
+    """
+    Test the display of notebooks and their contents on the notebook page
+    """
+    def testDisplayNotebook(self):
+        first_notebook = Notebook()
+        first_notebook.title = "Elise's Notebook"
+        first_notebook.color = "aqua"
+        first_notebook.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_notebook.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
+        first_notebook.save()
 
-   #      first_note = Note()
-   #      first_note.title = 'Grocery List'
-   #      first_note.tags = 'groceries'
-   #      first_note.text = 'apples, bananas, citrus'
-   #      first_note.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      first_note.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      first_note.parent_list = note_list
-   #      first_note.save()
+        saved_notebooks = Notebook.objects.all()
+        self.assertEqual(saved_notebooks.count(), 1)
 
-   #      second_note = Note()
-   #      second_note.title = 'Medicine'
-   #      second_note.tags = 'doctor'
-   #      second_note.text = 'take suppliments after midday meal'
-   #      second_note.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      second_note.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      second_note.parent_list = note_list
-   #      second_note.save()
-        
-   #      saved_items = Note.objects.all()
-   #      self.assertEqual(saved_items.count(), 2)
+        new_notebook = saved_notebooks[0]
+        self.assertEqual(first_notebook.title, "Elise's Notebook")
+        self.assertEqual(first_notebook.color, "aqua")
 
-   #      first_saved_item = saved_items[0]
-   #      second_saved_item = saved_items[1]
-   #      self.assertEqual(first_saved_item.text, 'apples, bananas, citrus')
-   #      self.assertEqual(second_saved_item.text, 'take suppliments after midday meal')
+        # Create and validate notes for display
+        Note.objects.create(
+            title='note1',
+            text='note1_test',
+            container=first_notebook
+        )
+        Note.objects.create(
+            title='note2',
+            text='note2_test',
+            container=first_notebook
+        )
+        response = self.client.get('/notebook/My-Notebook')
 
-   #      note_list.title = "Daily Notes"
-   #      note_list.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      note_list.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
-   #      note_list.notes = Notes.objects.get(parent_list=first_list.title)
-   #      note_list.save()
-
-   #      saved_items = List.objects.all()
-   #      self.assertEqual(saved_items.count(), 1)
+        self.assertIn("Elise's Notebook", response.content.decode())
+        self.assertIn('note1_test', response.content.decode())
+        self.assertIn('note2_test', response.content.decode())
 
     def testSavePOSTRequest(self):
         dummy_notebook = Notebook()

@@ -20,4 +20,5 @@ from notes import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomePage, name='home'),
+    path('notebook/', views.NotebookPage, name='notebook'),
 ]

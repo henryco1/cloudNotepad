@@ -28,3 +28,16 @@ def HomePage(request):
     notes = Note.objects.all()
     notebooks = Notebook.objects.all()
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
+
+def NotebookPage(request):
+    if request.method == 'POST':
+        return redirect('/notebook/My-Notebook')
+    elif request.method == 'GET':
+        # initialize default notebook
+        curr_notebooks = Notebook.objects.all()
+        if curr_notebooks.count() == 0:
+            Notebook.objects.create()
+
+    notes = Note.objects.all()
+    notebooks = Notebook.objects.all()
+    return render(request, 'notebook.html', {'notes': notes, 'notebooks': notebooks})
