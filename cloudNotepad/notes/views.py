@@ -9,16 +9,25 @@ def HomePage(request):
     if request.method == 'POST':
         
         # dummy_notebook = Notebook.objects.first()
-        Note.objects.create(text=request.POST['note_text'], container=Notebook.objects.create())
-
-        # note form
-        name_form = NoteForm(request.POST)
+        Note.objects.create(
+            title=request.POST['title'], 
+            tags=request.POST['tags'], 
+            text=request.POST['text'], 
+            container=Notebook.objects.get(title=request.POST['container'])
+        )
+        
         return redirect('/')
     elif request.method == 'GET':
         name_form = NoteForm
 
+        # initialize default notebook
+        curr_notebooks = Notebook.objects.all()
+        if curr_notebooks.count() == 0:
+            Notebook.objects.create()
+
     notes = Note.objects.all()
-    return render(request, 'home.html', {'notes': notes, 'form': name_form})
+    notebooks = Notebook.objects.all()
+    return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
 
     # if request.method == 'POST':
     #     new_note_text = request.POST['note_text']

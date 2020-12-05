@@ -38,7 +38,9 @@ class HomePageTest(TestCase):
     def testForm(self):
         response = self.client.get('/')
         html = response.content.decode('utf8')
-        self.assertIn('name="my_note"', html)
+        self.assertIn('name="title"', html)
+        self.assertIn('name="tags"', html)
+        self.assertIn('name="text"', html)
 
     """
     Test database elements

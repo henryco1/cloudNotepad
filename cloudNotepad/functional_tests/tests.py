@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.select import Select
 from django.test import LiveServerTestCase
+from notes.models import Notebook
 import unittest
 import time
 
@@ -106,21 +108,30 @@ class VisitorTest(LiveServerTestCase):
         # Each enter operation clears the input box, so we need to select the box for each subtest
         # Need to account for latency issues between the browser and the server, 
         # so we need waits and exception checks
-        input_box = self.browser.find_element_by_id('id_new_note')
-        input_box.send_keys('Clean the desk')
-        input_box.send_keys(Keys.ENTER)
+        title_box = self.browser.find_element_by_id('id_title')
+        title_box.send_keys('Cleaning Notes')
+        tags_box = self.browser.find_element_by_id('id_tags')
+        tags_box.send_keys('housekeeping')
+        text_box = self.browser.find_element_by_id('id_text')
+        text_box.send_keys('Clean the desk')
+
+        notebook_menu = Select(self.browser.find_element_by_id('id_container'))
+        notebook_menu.select_by_index(1)
+
+        submit_button = self.browser.find_element_by_id('id_new_note')
+        submit_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        input_box = self.browser.find_element_by_id('id_new_note')
-        input_box.send_keys('Wipe the keyboard')
-        input_box.send_keys(Keys.ENTER)
-        time.sleep(1)
+        # input_box = self.browser.find_element_by_id('id_text')
+        # input_box.send_keys('Wipe the keyboard')
+        # input_box.send_keys(Keys.ENTER)
+        # time.sleep(1)
 
         #4
         # table = self.browser.find_element_by_id('id_list_table')
         # rows = table.find_elements_by_tag_name('tr')
         self.__checkRowInTable('1: Clean the desk')
-        self.__checkRowInTable('2: Wipe the keyboard')
+        # self.__checkRowInTable('2: Wipe the keyboard')
 
         self.fail('Test case incomplete')
     
