@@ -5,9 +5,16 @@
     <body>
         <h1>Your Notes</h1>
         <form method="POST">
-            <input name="note_text" id="id_new_note" placeholder="Enter a note" />
+            {{ form }}  
+            <input type="submit" name="note_text" id="id_new_note" placeholder="Enter a note" />
             {% csrf_token %}
+
         </form>
+        <p>============</p>
+<!--         <form method="POST">
+            {% csrf_token %}
+              
+        </form> -->
         
         <table id="id_list_table">
             {% for note in notes %}

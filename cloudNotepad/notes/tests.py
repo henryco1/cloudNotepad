@@ -14,6 +14,12 @@ class HomePageTest(TestCase):
     #     found = resolve('/')
     #     self.assertEqual(found.func, HomePage)
 
+    """
+    Test basic building blocks
+    1. homepage
+    2. post request
+    3. form
+    """
     def testValidateHomePage(self):
         response = self.client.get('/')
         html = response.content.decode('utf8')
@@ -29,6 +35,11 @@ class HomePageTest(TestCase):
         self.assertIn('A new note', response.content.decode())
         self.assertTemplateUsed(response, 'home.html')
 
+    """
+    Test database elements
+    1. note
+    2. notebook
+    """
     def testCreateReadNote(self):
         # Create and validate dummy notebook
         dummy_notebook = Notebook()

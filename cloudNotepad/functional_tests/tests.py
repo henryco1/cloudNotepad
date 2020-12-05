@@ -39,7 +39,7 @@ class VisitorTest(LiveServerTestCase):
                 self.assertIn(row_text, [row.text for row in rows])
                 return
             except (AssertionError, WebDriverException) as e:
-                self.__waitTimeExceptionHandler(start_time, 0.5, 10, e)
+                self.__waitTimeExceptionHandler(start_time, 0.5, 5, e)
 
     """
     ================
