@@ -25,7 +25,6 @@ class Note(models.Model):
     title = models.CharField(max_length=50, unique=True)
     tags = models.CharField(max_length=25)
     text = models.TextField()
-    # slug = models.SlugField(max_length=40)
     container = models.ForeignKey(
         Notebook,
         on_delete=models.PROTECT,
@@ -34,7 +33,7 @@ class Note(models.Model):
     # Note: need to set the timezone to the user's default timezone
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)
-    slug = AutoSlugField(populate_from=['title', 'related_model__container', 'date_created'])
+    slug = AutoSlugField(populate_from=['title', 'date_created'])
 
     @property
     def all_text(self):

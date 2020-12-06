@@ -29,7 +29,7 @@ def HomePage(request):
     notebooks = Notebook.objects.all()
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
 
-def NotebookPage(request, notebook_slug):
+def NotebookPage(request, slug):
     if request.method == 'POST':
         return redirect('/notebook/My-Notebook')
     elif request.method == 'GET':
@@ -40,5 +40,4 @@ def NotebookPage(request, notebook_slug):
 
     notes = Note.objects.filter(container="My Notebook")
     notebook = Notebook.objects.all()
-    # print(notes.count())
     return render(request, 'notebook.html', {'notes': notes, 'notebook': notebook})

@@ -34,9 +34,9 @@ class HomePageTest(TestCase):
         dummy_notebook = Notebook()
         dummy_notebook.save()
         
-        response = self.client.get('/notebook/m')
+        response = self.client.get('/notebook/1/')
         html = response.content.decode('utf8')
-
+        
         self.assertTemplateUsed(response, 'notebook.html')
         self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Notebook</title>', html)

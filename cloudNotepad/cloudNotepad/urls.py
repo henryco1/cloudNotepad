@@ -20,6 +20,6 @@ from notes import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomePage, name='home'),
-    # path('notebook/<slug:slug>/', views.NotebookPage)
-    re_path(r'^notebook/(.+)', views.NotebookPage),
+    path('notebook/<int:slug>/', views.NotebookPage),
+    # re_path(r'^notebook/(.+)', views.NotebookPage)
 ]
