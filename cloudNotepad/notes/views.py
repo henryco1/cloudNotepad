@@ -31,12 +31,12 @@ def HomePage(request):
 
 def NotebookPage(request, slug):
     if request.method == 'POST':
-        return redirect('/notebook/My-Notebook')
+        return redirect('/notebook/1/')
     elif request.method == 'GET':
         # initialize default notebook
         curr_notebooks = Notebook.objects.all()
         if curr_notebooks.count() == 0:
-            Notebook.objects.create()
+            Notebook.objects.create(title='My Notebook')
 
     notes = Note.objects.filter(container="My Notebook")
     notebook = Notebook.objects.all()

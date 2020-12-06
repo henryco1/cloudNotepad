@@ -36,7 +36,7 @@ class HomePageTest(TestCase):
         
         response = self.client.get('/notebook/1/')
         html = response.content.decode('utf8')
-        
+
         self.assertTemplateUsed(response, 'notebook.html')
         self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Notebook</title>', html)
@@ -128,34 +128,34 @@ class HomePageTest(TestCase):
     Test the display of notebooks and their contents on the notebook page
     """
     def testDisplayNotebook(self):
-        first_notebook = Notebook()
-        first_notebook.title = "Elise's Notebook"
-        first_notebook.color = "aqua"
-        first_notebook.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
-        first_notebook.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
-        first_notebook.save()
+        my_notebook = Notebook()
+        my_notebook.title = "My Notebook"
+        my_notebook.color = "aqua"
+        my_notebook.date_created = datetime.datetime.utcnow().replace(tzinfo=utc)
+        my_notebook.last_updated = datetime.datetime.utcnow().replace(tzinfo=utc)
+        my_notebook.save()
 
         saved_notebooks = Notebook.objects.all()
         self.assertEqual(saved_notebooks.count(), 1)
 
         new_notebook = saved_notebooks[0]
-        self.assertEqual(first_notebook.title, "Elise's Notebook")
-        self.assertEqual(first_notebook.color, "aqua")
+        self.assertEqual(my_notebook.title, "My Notebook")
+        self.assertEqual(my_notebook.color, "aqua")
 
         # Create and validate notes for display
         Note.objects.create(
             title='note1',
             text='note1_test',
-            container=first_notebook
+            container=my_notebook
         )
         Note.objects.create(
             title='note2',
             text='note2_test',
-            container=first_notebook
+            container=my_notebook
         )
-        response = self.client.get('/notebook/My-Notebook')
+        response = self.client.get('/notebook/1/')
 
-        self.assertIn("Elise's Notebook", response.content.decode())
+        self.assertIn("My Notebook", response.content.decode())
         self.assertIn('note1_test', response.content.decode())
         self.assertIn('note2_test', response.content.decode())
 
