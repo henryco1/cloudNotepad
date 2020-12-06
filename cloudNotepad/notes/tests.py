@@ -153,8 +153,8 @@ class HomePageTest(TestCase):
             text='note2_test',
             container=my_notebook
         )
-        response = self.client.get('/notebook/1/')
-        # response = self.client.get('/notebook/' + my_notebook.slug +'/')
+        # response = self.client.get('/notebook/1/')
+        response = self.client.get('/notebook/' + my_notebook.slug +'/')
 
         self.assertIn("My Notebook", response.content.decode())
         self.assertIn('note1_test', response.content.decode())
@@ -192,6 +192,7 @@ class HomePageTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
+        # self.assertRedirects(response, '/notebook/' + dummy_notebook.slug +'/')
 
     def testSaveNoPOSTRequest(self):
         # saves a POST request only if requested to/if necessary

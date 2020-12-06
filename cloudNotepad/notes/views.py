@@ -29,9 +29,9 @@ def HomePage(request):
     notebooks = Notebook.objects.all()
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
 
-def NotebookPage(request, slug):
+def NotebookPage(request, title, slug):
     if request.method == 'POST':
-        return redirect('/notebook/1/')
+        return redirect('/notebook/' + request.POST['container'].slug + '/')
     elif request.method == 'GET':
         # initialize default notebook
         curr_notebooks = Notebook.objects.all()
@@ -39,5 +39,6 @@ def NotebookPage(request, slug):
             Notebook.objects.create(title='My Notebook')
 
     notes = Note.objects.filter(container="My Notebook")
-    notebook = Notebook.objects.all()
+    # notebook = Notebook.objects.all()
+    notebook = Notebook.objects.filter(slug=slug)
     return render(request, 'notebook.html', {'notes': notes, 'notebook': notebook})

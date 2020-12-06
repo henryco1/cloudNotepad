@@ -7,6 +7,7 @@
         <table id="id_notebook_table">
             {% for book in notebook %}
             <h2> {{ forloop.counter }}: {{ book.title }} </h2>
+            <h3> {{ book.slug }} </h3>
             {% endfor %}
         </table>
         <table id="id_list_table">
