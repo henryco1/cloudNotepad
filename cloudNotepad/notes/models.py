@@ -4,6 +4,12 @@ from django.utils import timezone
 from django_extensions.db.fields import AutoSlugField
 
 """
+Model helper functions
+"""
+def slugify_helper(content):
+    return content.replace('_', '-').lower()
+
+"""
 Model class declarations
 """
 class Notebook(models.Model):
@@ -18,8 +24,15 @@ class Notebook(models.Model):
      # Note: need to set the timezone to the user's default timezone
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)   
-    slug = AutoSlugField(populate_from=['title', 'date_created'])
+    slug = AutoSlugField(
+        populate_from=['title', 'date_created'],
+        slugify_function=slugify_helper,
+        unique=True
+    )
 
+    @property
+    def slug(self):
+        return '%s' % (self.slug)
 
 class Note(models.Model):
     title = models.CharField(max_length=50, unique=True)
@@ -33,7 +46,15 @@ class Note(models.Model):
     # Note: need to set the timezone to the user's default timezone
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)
-    slug = AutoSlugField(populate_from=['title', 'date_created'])
+    slug = AutoSlugField(
+        populate_from=['title', 'date_created'],
+        slugify_function=slugify_helper,
+        unique=True
+    )
+
+    @property
+    def slug(self):
+        return '%s' % (self.slug)
 
     @property
     def all_text(self):

@@ -154,6 +154,7 @@ class HomePageTest(TestCase):
             container=my_notebook
         )
         response = self.client.get('/notebook/1/')
+        # response = self.client.get('/notebook/' + my_notebook.slug +'/')
 
         self.assertIn("My Notebook", response.content.decode())
         self.assertIn('note1_test', response.content.decode())
