@@ -13,12 +13,12 @@ class Notebook(models.Model):
         primary_key=True, 
         default='My Notebook'
     )
-    # slug = models.SlugField(max_length=40)
     color = models.CharField(max_length=25, default='Red')
 
      # Note: need to set the timezone to the user's default timezone
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)   
+    slug = AutoSlugField(populate_from=['title', 'date_created'])
 
 
 class Note(models.Model):
@@ -34,6 +34,7 @@ class Note(models.Model):
     # Note: need to set the timezone to the user's default timezone
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(populate_from=['title', 'related_model__container', 'date_created'])
 
     @property
     def all_text(self):
