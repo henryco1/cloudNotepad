@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.utils import timezone
+from django_extensions.db.fields import AutoSlugField
 
 """
 Model class declarations
@@ -12,6 +13,7 @@ class Notebook(models.Model):
         primary_key=True, 
         default='My Notebook'
     )
+    # slug = models.SlugField(max_length=40)
     color = models.CharField(max_length=25, default='Red')
 
      # Note: need to set the timezone to the user's default timezone
@@ -23,6 +25,7 @@ class Note(models.Model):
     title = models.CharField(max_length=50, unique=True)
     tags = models.CharField(max_length=25)
     text = models.TextField()
+    # slug = models.SlugField(max_length=40)
     container = models.ForeignKey(
         Notebook,
         on_delete=models.PROTECT,

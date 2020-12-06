@@ -31,7 +31,10 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def testValidateNotebookPage(self):
-        response = self.client.get(f'/notebook/')
+        dummy_notebook = Notebook()
+        dummy_notebook.save()
+        
+        response = self.client.get('/notebook/m')
         html = response.content.decode('utf8')
 
         self.assertTemplateUsed(response, 'notebook.html')
