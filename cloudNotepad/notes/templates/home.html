@@ -17,6 +17,11 @@
         </form> -->
         
         <table id="id_list_table">
+            <h3> {{ notebooks.0.title }} </h3>
+<!--             {% for notebook in notebooks %}
+               <h3> {{ notebook.title }} </h3>
+            {% endfor %} -->
+
             {% for note in notes %}
             <tr><td> {{ forloop.counter }}: {{ note.text }}</td></tr>
             {% endfor %}

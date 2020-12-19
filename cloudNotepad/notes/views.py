@@ -6,7 +6,6 @@ from notes.forms import NoteForm
 
 # Create your views here.
 def HomePage(request):
-    print('test2')
     if request.method == 'POST':
         
         # dummy_notebook = Notebook.objects.first()
@@ -31,12 +30,10 @@ def HomePage(request):
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
 
 def NotebookPage(request, title, slug):
-    print("test1")
     if request.method == 'POST':
         return redirect('/notepad/notebook/' + request.POST['container'].slug + '/')
     elif request.method == 'GET':
         # initialize default notebook
-        print(request)
         curr_notebooks = Notebook.objects.all()
         if curr_notebooks.count() == 0:
             Notebook.objects.create(title='My Notebook')

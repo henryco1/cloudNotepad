@@ -34,7 +34,7 @@ class HomePageTest(TestCase):
         dummy_notebook = Notebook()
         dummy_notebook.save()
         
-        response = self.client.get('/notepad/notebook/1/')
+        response = self.client.get('/notepad/notebook/' + dummy_notebook.title + '/' + dummy_notebook.slug + '/')
         html = response.content.decode('utf8')
 
         self.assertTemplateUsed(response, 'notebook.html')
@@ -154,7 +154,7 @@ class HomePageTest(TestCase):
             container=my_notebook
         )
         # response = self.client.get('/notebook/1/')
-        response = self.client.get('/notepad/notebook/' + my_notebook.slug +'/')
+        response = self.client.get('/notepad/notebook/' + my_notebook.title + '/' + my_notebook.slug + '/')
         # print(response.path)
 
         self.assertIn("My Notebook", response.content.decode())

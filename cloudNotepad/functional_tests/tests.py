@@ -58,11 +58,6 @@ class VisitorTest(LiveServerTestCase):
     5. User sees their current timezone
     """
     def testUserViewPage(self):
-        print("=-=-=-=")
-        
-        print(self.live_server_url)
-
-        print("=-=-=-=")
         # 1
         self.browser.get(self.live_server_url + "/notepad/")
         self.assertIn('Notes', self.browser.title) 
