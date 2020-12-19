@@ -19,7 +19,8 @@ from notes import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.HomePage, name='home'),
-    path('notebook/<str:title>/<slug:slug>/', views.NotebookPage),
+    path('notepad/', views.HomePage, name='home'),
+    path('notepad/notebook/<str:title>/<slug:slug>/', views.NotebookPage),
+    # path('notepad/note/<str:title>/<slug:slug>/', views.NotePage),
     # re_path(r'^notebook/(.+)', views.NotebookPage)
 ]

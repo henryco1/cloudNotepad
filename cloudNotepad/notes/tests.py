@@ -21,7 +21,7 @@ class HomePageTest(TestCase):
     3. form
     """
     def testValidateHomePage(self):
-        response = self.client.get('/')
+        response = self.client.get('/notepad/')
         html = response.content.decode('utf8')
 
         self.assertTemplateUsed(response, 'home.html')
@@ -34,7 +34,7 @@ class HomePageTest(TestCase):
         dummy_notebook = Notebook()
         dummy_notebook.save()
         
-        response = self.client.get('/notebook/1/')
+        response = self.client.get('/notepad/notebook/1/')
         html = response.content.decode('utf8')
 
         self.assertTemplateUsed(response, 'notebook.html')
@@ -44,7 +44,7 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'notebook.html')
 
     def testForm(self):
-        response = self.client.get('/')
+        response = self.client.get('/notepad/')
         html = response.content.decode('utf8')
         self.assertIn('name="title"', html)
         self.assertIn('name="tags"', html)
@@ -154,7 +154,8 @@ class HomePageTest(TestCase):
             container=my_notebook
         )
         # response = self.client.get('/notebook/1/')
-        response = self.client.get('/notebook/' + my_notebook.slug +'/')
+        response = self.client.get('/notepad/notebook/' + my_notebook.slug +'/')
+        # print(response.path)
 
         self.assertIn("My Notebook", response.content.decode())
         self.assertIn('note1_test', response.content.decode())
@@ -163,7 +164,7 @@ class HomePageTest(TestCase):
     def testSavePOSTRequest(self):
         dummy_notebook = Notebook()
         dummy_notebook.save()
-        response = self.client.post('/', 
+        response = self.client.post('/notepad/', 
           data={
             'title': 'A new note',
             'tags': '',
@@ -182,7 +183,7 @@ class HomePageTest(TestCase):
         # Always redirect after a POST
         dummy_notebook = Notebook()
         dummy_notebook.save()
-        response = self.client.post('/', 
+        response = self.client.post('/notepad/', 
           data={
             'title': 'A new note',
             'tags': '',
@@ -191,7 +192,7 @@ class HomePageTest(TestCase):
         })
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/notepad/')
         # self.assertRedirects(response, '/notebook/' + dummy_notebook.slug +'/')
 
     def testSaveNoPOSTRequest(self):
@@ -220,7 +221,7 @@ class HomePageTest(TestCase):
             container=dummy_notebook
         )
 
-        response = self.client.get('/')
+        response = self.client.get('/notepad/')
 
         self.assertIn('note1_test', response.content.decode())
         self.assertIn('note2_test', response.content.decode())

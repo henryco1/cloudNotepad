@@ -58,10 +58,13 @@ class VisitorTest(LiveServerTestCase):
     5. User sees their current timezone
     """
     def testUserViewPage(self):
-
+        print("=-=-=-=")
         
+        print(self.live_server_url)
+
+        print("=-=-=-=")
         # 1
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.live_server_url + "/notepad/")
         self.assertIn('Notes', self.browser.title) 
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Notes', header_text)
@@ -102,7 +105,7 @@ class VisitorTest(LiveServerTestCase):
     """
     def testUserCreateNote(self):
         # 0
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.live_server_url + "/notepad/")
 
         # 2 & 3
         # Each enter operation clears the input box, so we need to select the box for each subtest
