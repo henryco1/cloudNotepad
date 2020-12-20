@@ -18,7 +18,7 @@ def HomePage(request):
 
         return redirect('/notepad/')
     elif request.method == 'GET':
-        name_form = NoteForm
+        name_form = NoteForm({"text": "ayayaya"})
 
         # initialize default notebook
         curr_notebooks = Notebook.objects.all()

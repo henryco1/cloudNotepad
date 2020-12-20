@@ -5,7 +5,8 @@
     <body>
         <h1>Your Notes</h1>
         <form method="POST">
-            {{ form }}  
+            {{ form.media }}  
+            {{ form.as_p }}  
             <input type="submit" name="note_text" id="id_new_note" placeholder="Enter a note" />
             {% csrf_token %}
 

@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.utils import timezone
 from django_extensions.db.fields import AutoSlugField
 from ckeditor.fields import RichTextField
+from ckeditor.widgets import CKEditorWidget
+
 
 """
 Model class declarations
@@ -51,6 +53,9 @@ class NoteForm(ModelForm):
             'text',
             'container'
         ]
+        widget = {
+            'text': CKEditorWidget()
+        }
 
 class NotebookForm(ModelForm):
     class Meta:
