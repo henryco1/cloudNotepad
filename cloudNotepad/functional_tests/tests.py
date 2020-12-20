@@ -110,8 +110,17 @@ class VisitorTest(LiveServerTestCase):
         title_box.send_keys('Cleaning Notes')
         tags_box = self.browser.find_element_by_id('id_tags')
         tags_box.send_keys('housekeeping')
-        text_box = self.browser.find_element_by_id('id_text')
-        text_box.send_keys('Clean the desk')
+
+        # switch to the ckeditor context
+        ckeditor_frame = self.browser.find_element_by_class_name('cke_wysiwyg_frame')
+        self.browser.switch_to.frame(ckeditor_frame)
+        body = self.browser.find_element_by_tag_name('body')
+        body.send_keys('tester')
+        # text_box = self.browser.find_element_by_id('id_text')
+        # text_box.send_keys('Clean the desk')
+
+        # return to the home page context
+        self.browser.switch_to.parentFrame()
 
         notebook_menu = Select(self.browser.find_element_by_id('id_container'))
         notebook_menu.select_by_index(1)

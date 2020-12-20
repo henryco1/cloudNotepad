@@ -18,7 +18,6 @@ def HomePage(request):
 
         return redirect('/notepad/')
     elif request.method == 'GET':
-        name_form = NoteForm({"text": "ayayaya"})
 
         # initialize default notebook
         curr_notebooks = Notebook.objects.all()
@@ -26,6 +25,7 @@ def HomePage(request):
             Notebook.objects.create()
 
     notes = Note.objects.all()
+    name_form = NoteForm({"text": notes.first().text})
     notebooks = Notebook.objects.all()
     return render(request, 'home.html', {'notes': notes, 'notebooks': notebooks, 'form': name_form})
 
