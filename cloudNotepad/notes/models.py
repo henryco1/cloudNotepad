@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils import timezone
 from django_extensions.db.fields import AutoSlugField
+from ckeditor.fields import RichTextField
 
 """
 Model class declarations
@@ -23,7 +24,7 @@ class Notebook(models.Model):
 class Note(models.Model):
     title = models.CharField(max_length=50, unique=True)
     tags = models.CharField(max_length=25)
-    text = models.TextField()
+    text = RichTextField()
     container = models.ForeignKey(
         Notebook,
         on_delete=models.PROTECT,
