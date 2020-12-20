@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'ckeditor',
     'notes',
 ]
 
@@ -125,3 +126,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/mnt/33AAE3CD5EB7553A/Coding/Projects/Django/cloudNotepad/cloudNotepad/static/'

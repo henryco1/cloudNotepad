@@ -13,4 +13,5 @@
 # pip3 install django~=3.1.3
 # pip3 install psycopg2~=2.8.6
 # pip3 install django-extensions
+# pip3 install django-ckeditor
 
