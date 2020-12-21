@@ -18,13 +18,11 @@
         </form> -->
         
         <table id="id_list_table">
-            <h3> {{ notebooks.0.title }} </h3>
-<!--             {% for notebook in notebooks %}
-               <h3> {{ notebook.title }} </h3>
-            {% endfor %} -->
+            <h3> {{ notebooks.title }} </h3>
 
             {% for note in notes %}
-            <tr><td> {{ forloop.counter }}: {{ note.text }}</td></tr>
+            {% url note as note_url %}
+            <tr><td><a href="{{ note_url }}/notepad/note/{{note.title}}/{{note.slug}}/"> {{ forloop.counter }}: {{ note.text }} </a></td></tr>
             {% endfor %}
         </table>
     </body>
